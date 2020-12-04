@@ -10,29 +10,30 @@
     <!-- TABLA -->
     <div class="table-responsive mat-elevation-z3">
         <table mat-table [dataSource]="dataSource" matSort>
-            <!-- Checkbox -->
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"></mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let row">
-                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"></mat-checkbox>
-                </td>
-            </ng-container>
-
             <!-- Bucle para Mostrar las Columnas -->
-            <ng-container *ngFor="let columnName of columnas_bucle">
+            <ng-container *ngFor="let columnName of displayedColumns">
                 <ng-container matColumnDef={{columnName}} >
-                    <th [ngStyle]="obtenerCSS()" mat-header-cell *matHeaderCellDef mat-sort-header> {{getTitle(columnName)}} </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [ngStyle]="obtenerCSS()"> 
+                        <!-- TIPO DE DATO (1) - Normal   -->
+                        <ng-container *ngIf="tipoDato(columnName, 1)">{{getTitle(columnName)}}</ng-container>
+                        <!-- TIPO DE DATO (2) - Span     -->
+                        <ng-container *ngIf="tipoDato(columnName, 2)">{{getTitle(columnName)}}</ng-container>
+                        <!-- TIPO DE DATO (3) - Boton    -->
+                        <ng-container *ngIf="tipoDato(columnName, 3)">{{getTitle(columnName)}}</ng-container>
+                        <!-- TIPO DE DATO (4) - CheckBox -->
+                        <mat-checkbox *ngIf="tipoDato(columnName, 4)" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"></mat-checkbox>                        
+                    </th>
                     <td mat-cell *matCellDef="let row">
                         <!-- TIPO DE DATO (1) - Normal -->
                         <ng-container *ngIf="tipoDato(columnName, 1)">{{row[columnName]}} </ng-container>
                         <!-- TIPO DE DATO (2) - Span   -->
                         <span *ngIf="tipoDato(columnName, 2)" class="span-tabla" [ngStyle]="getColor(row, columnName)"> {{row[columnName]}}</span>
                         <!-- TIPO DE DATO (3) - Boton  -->
-                        <button *ngIf="tipoDato(columnName, 3)" style="min-width: 20px; line-height: 0px; padding: 0px;" mat-flat-button>
+                        <button *ngIf="tipoDato(columnName, 3)"  (click)="openDialog()" style="min-width: 20px; line-height: 0px; padding: 0px;" mat-flat-button>
                             <i [ngClass]="icoBoton(row, columnName)" [ngStyle]="styleButton(row, columnName)"></i>{{row[columnName]}}
                         </button>
+                        <!-- TIPO DE DATO (4) - CheckBox -->
+                        <mat-checkbox *ngIf="tipoDato(columnName, 4)" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"></mat-checkbox>
                     </td>
                 </ng-container>
             </ng-container>
@@ -48,7 +49,7 @@
     </div>
     <!-- PAGINADOR DE LA TABLA -->
     <ng-container  *ngIf="validarPaginador()">
-        <mat-paginator class="mat-elevation-z3" [pageSizeOptions]="[5, 15, 25, 50]"></mat-paginator>
+        <mat-paginator class="mat-elevation-z3" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
     </ng-container>
 </div>
 <!-- 

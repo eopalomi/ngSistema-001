@@ -13,6 +13,7 @@ import { MatPaginatorIntlCro } from './paginator.module';
 import { PaginaFormularioComponent } from './components/pagina-formulario/pagina-formulario.component';
 import { FiltroCarteraClienteComponent } from './components/filtro-cartera-cliente/filtro-cartera-cliente.component';
 import { FormsModule } from "@angular/forms";
+import { DialogCarteraClientesComponent } from './components/dialog-cartera-clientes/dialog-cartera-clientes.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { FormsModule } from "@angular/forms";
     UsuariosComponent,
     PaginaTablaComponent,
     PaginaFormularioComponent,
-    FiltroCarteraClienteComponent
+    FiltroCarteraClienteComponent,
+    DialogCarteraClientesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CarteraClientesComponent } from './components/cartera-clientes/cartera-clientes.component';
+import { DialogCarteraClientesComponent } from './components/dialog-cartera-clientes/dialog-cartera-clientes.component';
 import { FiltroCarteraClienteComponent } from './components/filtro-cartera-cliente/filtro-cartera-cliente.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 

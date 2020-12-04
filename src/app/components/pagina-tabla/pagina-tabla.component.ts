@@ -2,21 +2,9 @@ import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/cor
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import {MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { SelectionModel } from "@angular/cdk/collections";
 
-export interface DatosTabla {
-  col01: string;
-  col02: string;
-  col03: string;
-  col04: string;
-  col05: string;
-  col06: string;
-  col07: string;
-  col08: string;
-  col09: string;
-  col10: string;
-  col11: string;
-}
 
 @Component({
   selector: 'app-pagina-tabla',
@@ -27,20 +15,21 @@ export class PaginaTablaComponent implements AfterViewInit, OnInit {
   @Input() DATA_PAGE;   // Datos de la Pagina
   @Input() TITLE_PAGE;  // Titulos de la Pagina
   @Input() OPC_PAGE;    // Opciones de la Pagina
-  @Input() TYPE_COLUMN; // Tipos de Dato de las Columnas
+  @Input() TYPE_COLUMN; // Tipos de Dato para las Columnas
   maximoRowsPaginator: number = 100; // Numero Maximo Filas Paginador
   
-  displayedColumns: string[] = ['select','col01','col02','col03','col04','col05','col06','col07','col08','col09','col10','col11'];          // Columnas a Mostrar Tabla
+  //displayedColumns: string[] = ['col00','col01','col02','col03','col04','col05','col06','col07','col08','col09','col10','col11'];          // Columnas a Mostrar Tabla
+  displayedColumns: string[]; // Columnas a Mostrar Tabla
   dataSource: MatTableDataSource<any>; // Data Para la Tabla
 
-  columnas_bucle: string[] = ['col01','col02','col03','col04','col05','col06','col07','col08','col09','col10','col11'];
+  //columnas_bucle: string[] = ['col01','col02','col03','col04','col05','col06','col07','col08','col09','col10','col11'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator; // **** - Para poder Paginar
   @ViewChild(MatSort) sort: MatSort;                // **** - Para poder Ordenar Columnas
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
-  ngOnInit(): void { // **** mas
+  ngOnInit(): void {
     // Buscar los Titulos de las Columnas en la Data
     for (let rs of this.DATA_PAGE) { var columnasTabla: string[] = Object.keys(rs) } 
 
@@ -49,7 +38,7 @@ export class PaginaTablaComponent implements AfterViewInit, OnInit {
     columnasTabla = this.removerItemArray('_ico', columnasTabla);
 
     // Inicializar las Variables
-    //this.displayedColumns = columnasTabla;                  // Asignar las Columnas a Mostrar
+    this.displayedColumns = columnasTabla;                  // Asignar las Columnas a Mostrar
     this.dataSource = new MatTableDataSource(this.DATA_PAGE); // Asignar la Data de la tabla
     this.dataSource.paginator = this.paginator;    
   }
@@ -154,6 +143,65 @@ export class PaginaTablaComponent implements AfterViewInit, OnInit {
     } else {
       return { 'font-size':'22px', 'color':'red','vertical-align': 'middle' };
     }
+  }
+
+  /************** DIALOG ***************/
+  openDialog(): void {
+    /*const dialogRef = this.dialog.open(PaginaTablaComponent, {
+      width: '400px',
+      data: {name: 'Erick'}
+    });*/
+
+    let config = new MatDialogConfig();
+    let dialogRef:MatDialogRef<PaginaTablaComponent> = this.dialog.open(PaginaTablaComponent, config);
+
+
+    let DATA_PAGE1: { 
+      col00: string; col05: string
+    } [] = [
+      { col00: '',  col05: 'Juan Alore'},
+      { col00: '',  col05: 'Juan Perez'},
+      { col00: '',  col05: 'Juan Munip'},
+      { col00: '',  col05: 'Juan Perez'},
+      { col00: '',  col05: 'Juan Perez'},
+      { col00: '',  col05: 'Juan Abdur'},
+      { col00: '',  col05: 'Juan Perez'},
+      { col00: '',  col05: 'Juan Perez'},
+      { col00: '',  col05: 'Juan Perez'},
+      { col00: '',  col05: 'Juan Falco'},
+      { col00: '',  col05: 'Juan Choka'},
+      { col00: '',  col05: 'Juan Perez'},
+      { col00: '',  col05: 'Juan Perez'},
+      { col00: '',  col05: 'Juan Perez'}
+    ];
+  
+    // TITULOS DE LA PAGINA
+    let TITLE_PAGE1: { 
+      col00: string, col05: string
+    } [] = [{ 
+      col00: '',    col05: 'Vendedor'
+    }];
+  
+    // TIPO DE DATO
+    let TYPE_COLUMN1: { 
+      col00: number, col05: number
+    } [] = [{ 
+      col00: 4, col05: 1
+    }];
+  
+    // OPCIONES DE LA PAGINA
+    let OPC_PAGE1: { paginator:boolean, cabecera: boolean, buscador: boolean}[] = [{
+      paginator:true, cabecera: true, buscador: true
+    }];
+
+    dialogRef.componentInstance.DATA_PAGE   = DATA_PAGE1;
+    dialogRef.componentInstance.TITLE_PAGE  = TITLE_PAGE1;
+    dialogRef.componentInstance.OPC_PAGE    = OPC_PAGE1;
+    dialogRef.componentInstance.TYPE_COLUMN = TYPE_COLUMN1;
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   /************** SELECTOR ***************/
