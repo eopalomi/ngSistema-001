@@ -1,0 +1,80 @@
+<div style="background: #26a69a; color:white; vertical-align: middle; text-align: center; margin-bottom: 1em; " class="mat-elevation-z3">TITLE</div>
+<div>
+    <!-- BUSCADOR DE LA TABLA -->
+    <ng-container  *ngIf="validarBuscador()">
+        <mat-form-field>
+            <mat-label>Buscar</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese datos de busqueda" #input>
+        </mat-form-field>
+    </ng-container>
+    <!-- TABLA -->
+    <div class="table-responsive mat-elevation-z3">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <!-- Checkbox -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"></mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"></mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- Bucle para Mostrar las Columnas -->
+            <ng-container *ngFor="let columnName of columnas_bucle">
+                <ng-container matColumnDef={{columnName}} >
+                    <th [ngStyle]="obtenerCSS()" mat-header-cell *matHeaderCellDef mat-sort-header> {{getTitle(columnName)}} </th>
+                    <td mat-cell *matCellDef="let row">
+                        <!-- TIPO DE DATO (1) - Normal -->
+                        <ng-container *ngIf="tipoDato(columnName, 1)">{{row[columnName]}} </ng-container>
+                        <!-- TIPO DE DATO (2) - Span   -->
+                        <span *ngIf="tipoDato(columnName, 2)" class="span-tabla" [ngStyle]="getColor(row, columnName)"> {{row[columnName]}}</span>
+                        <!-- TIPO DE DATO (3) - Boton  -->
+                        <button *ngIf="tipoDato(columnName, 3)" style="min-width: 20px; line-height: 0px; padding: 0px;" mat-flat-button>
+                            <i [ngClass]="icoBoton(row, columnName)" [ngStyle]="styleButton(row, columnName)"></i>{{row[columnName]}}
+                        </button>
+                    </td>
+                </ng-container>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+    </div>
+    <!-- PAGINADOR DE LA TABLA -->
+    <ng-container  *ngIf="validarPaginador()">
+        <mat-paginator class="mat-elevation-z3" [pageSizeOptions]="[5, 15, 25, 50]"></mat-paginator>
+    </ng-container>
+</div>
+<!-- 
+
+ID Column
+<ng-container matColumnDef="col01">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getTitle('col01')}} </th>
+    <td mat-cell *matCellDef="let row"> {{row.col01}} </td>
+</ng-container>
+
+ Progress Column
+<ng-container matColumnDef="col02">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getTitle('col02')}} </th>
+    <td mat-cell *matCellDef="let row"> {{row.col02}}% </td>
+</ng-container>
+
+Name Column
+<ng-container matColumnDef="col03">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getTitle('col03')}} </th>
+    <td mat-cell *matCellDef="let row"> {{row.col03}} </td>
+</ng-container>
+
+ Color Column
+<ng-container matColumnDef="col04">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{getTitle('col04')}} </th>
+    <td mat-cell *matCellDef="let row" [style.color]="'blue'"> {{row.col04}} </td>
+</ng-container>
+
+-->

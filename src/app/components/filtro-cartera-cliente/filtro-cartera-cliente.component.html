@@ -1,0 +1,15 @@
+<div style="background: #26a69a; color:white; vertical-align: middle; text-align: center; margin-bottom: 1em; " class="mat-elevation-z3">FILTROS</div>
+<form class="formulario">
+    <!-- CAMPO  -->
+    <mat-form-field appearance="standard">
+        <mat-label>Cartera</mat-label>
+        <mat-select>
+            <mat-option></mat-option>
+            <mat-option *ngFor="let food of foods" [value]="food.value">{{food.viewValue}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <!-- BOTONES -->
+    <div style="display: flex; justify-content: center;">
+        <button mat-raised-button color="primary" class="small">Filtrar</button>
+    </div>
+</form>

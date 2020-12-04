@@ -1,0 +1,48 @@
+.grid {
+    display: grid;
+    grid-template-columns: 100% ;
+    gap: 1em;
+    margin: 1em;
+
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 1em;
+    margin: 1em;
+}
+
+.item1 {
+    justify-self: center;
+}
+
+
+.grid div {
+    /*background: burlywood;*/
+    padding: 10px;
+}
+
+/*.grid div:hover {
+    border: 1px solid greenyellow;
+}
+*/
+.title {
+    background-color: #26a69a;
+    text-align: center;
+    vertical-align: middle !important;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 1em;
+    height: 35px;
+    font-size: medium;
+    line-height: 35px; /* se intento centrar */
+    font-weight: bold; /* letras en negrita */
+}
+
+.container {
+    margin: 0 auto;
+    margin-top: 1em;
+    min-height: 95%;
+    width: 95%;
+}

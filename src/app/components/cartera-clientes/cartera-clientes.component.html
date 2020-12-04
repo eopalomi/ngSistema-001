@@ -1,0 +1,15 @@
+<div class="container mat-elevation-z8">
+    <!-- TITULO DEL MODULO -->
+    <div class="title">CARTERA DE CLIENTE</div>
+    <!-- PAGINAS DEL MODULO -->
+    <div class="grid">
+        <div class="item1">
+            <app-filtro-cartera-cliente></app-filtro-cartera-cliente>
+        </div>
+    </div>
+    <div class="grid2">
+        <div>
+            <app-pagina-tabla [DATA_PAGE]="DATA_PAGE" [TITLE_PAGE]="TITLE_PAGE" [OPC_PAGE]="OPC_PAGE" [TYPE_COLUMN]="TYPE_COLUMN"></app-pagina-tabla>
+        </div>
+    </div>
+</div>
